@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Expense Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body::before {
+            content: "";
+            background-image: url('https://i.pinimg.com/originals/de/02/5b/de025b863d1edaa2873dc1573aa27a2f.jpg'); /* Add your image URL here */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(10px); /* Adjust the blur amount */
+            z-index: -1; /* Keep the blurred background behind the content */
+        }
+
+        q,h1 {
+    display: block; /* Makes the <q> element a block-level element */
+    color: #333; /* Text color */
+    background-color: #f0f8ff87; /* Light blue background */
+    padding: 10px; /* Adds space inside the block */
+    border-left: 5px solid #007bff; /* Adds a blue border on the left */
+    margin-bottom: 15px; /* Adds space below the quote */
+    font-style: italic; /* Italicizes the text for quote styling */
+}
+
+
+        * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+        body {
+            background-color: #1a3a5c;
+            font-family: "Nunito", sans-serif;
+            color: #0e141a;
+            line-height: 1.6;
+            padding: 20px;
+            background-image: url('https://i.pinimg.com/originals/de/02/5b/de025b863d1edaa2873dc1573aa27a2f.jpg'); /* Add your image URL here */
+            background-size: cover; /* This ensures the image covers the whole screen */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+           
+        }
+
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title, .abt {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        
+        .abt {
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        input[type="date"] {
+            color: black; /* Set text color to black */
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            width: 200px;
+        }
+
+        .flex_content {
+            background-color: rgba(124, 130, 138, 0.466);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flex_content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .flex_form {
+            flex: 1;
+        }
+
+        .flex_expenses {
+            flex: 1.3;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .form input, .form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #0e0c0cf0;
+            transition: background-color 0.3s ease;
+        }
+
+        .form input:focus, .form textarea:focus {
+            background-color: rgba(22, 18, 18, 0.2);
+            outline: none;
+        }
+
+        .form input, .form textarea {
+    width: 100%; /* Make input/textarea take up full width */
+    padding: 10px; /* Padding inside the input/textarea */
+    margin-bottom: 15px; /* Space between form fields */
+    border: none; /* Remove default borders */
+    border-radius: 5px; /* Rounded corners */
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent white background */
+    color: #0e0c0cda; /* Light text color */
+    font-size: 16px; /* Font size of input text */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow inside the input */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition on hover/focus */
+}
+
+/* Add focus state to make inputs more interactive */
+.form input:focus, .form textarea:focus {
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly increase transparency on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Darken the shadow on focus */
+    color: rgb(12, 10, 10); /* Make the text color fully white on focus */
+}
+
+/* Additional media query for responsive input fields */
+@media screen and (max-width: 768px) {
+    .form input, .form textarea {
+        font-size: 14px; /* Adjust font size on smaller screens */
+        padding: 8px; /* Slightly reduce padding for better responsiveness */
+    }
+}
+
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn_success { background-color: #03d35a; }
+        .btn_danger { background-color: #e41d1d; }
+        .btn_primary { background-color: #0655ff; }
+
+        .head {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .total {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(194 197 200 / 6%);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+        .expense {
+            background-color: #fefefe;
+            color: #000000;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .expense:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1 class="title">EXPENSE TRACKER</h1>
+        <p class="abt">
+            <q>This expense tracker helps you track your expenses for as long as you wish. Whenever you wish to start
+                tracking afresh (This can be after a week or a month or any period of time), click on the clear records
+                button to clear everything. Click on the 'Export as CSV' button to export the records as a .csv
+                file</q>
+            <small> -- Soham Datta</small>
+        </p>
+        <div class="flex">
+            <div class="flex_content flex_form">
+                <form id="expense-form" class="form">
+                    <input type="number" id="amount" placeholder="Amount" autocomplete="off" required>
+                    <input type="text" id="to" placeholder="To" autocomplete="off" required>
+                    <textarea id="note" rows="3" placeholder="Note"></textarea>
+                    <input type="date" id="date" required="" style="color: black; font-family: Arial, sans-serif; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background-color: white; width: 200px;">
+                    <button class="btn btn_success" type="submit">Add expense</button>
+                    <button class="btn btn_danger" id="clear-record">Clear record</button>
+                    <button class="btn btn_primary" id="export-csv">Export as .csv</button>
+                </form>
+            </div>
+            <div class="flex_content flex_expenses">
+                <h2 class="head">Expenses</h2>
+                <div class="total">
+                    <h3>TOTAL</h3>
+                    <h3 id="total-display">$0.0</h3>
+                </div>
+                <div id="expenses-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let expenses = JSON.parse(localStorage.getItem('q-js-expenses')) || [];
+        const totalDisplay = document.getElementById('total-display');
+        const expensesList = document.getElementById('expenses-list');
+        
+        function calculateTotal() {
+            let total = expenses.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
+            totalDisplay.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function renderExpenses() {
+            expensesList.innerHTML = '';
+            expenses.forEach((expense, index) => {
+                const expenseDiv = document.createElement('div');
+                expenseDiv.className = 'expense';
+                expenseDiv.style.animationDelay = `${index * 0.1}s`;
+                expenseDiv.innerHTML = `
+                    <p><b>To:</b> ${expense.to}</p>
+                    <p><b>Date:</b> ${expense.date}</p>
+                    <p><b>Amount:</b> $${parseFloat(expense.amount).toFixed(2)}</p>
+                    <p><b>Note:</b> ${expense.note}</p>
+                `;
+                expensesList.appendChild(expenseDiv);
+            });
+            calculateTotal();
+        }
+
+        document.getElementById('expense-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const to = document.getElementById('to').value;
+            const note = document.getElementById('note').value;
+            const date = document.getElementById('date').value;
+
+            if (amount && to && date) {
+                const newExpense = { amount, to, note, date };
+                expenses.unshift(newExpense);
+                localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
+                renderExpenses();
+                this.reset();
+            }
+        });
+
+        document.getElementById('clear-record').addEventListener('click', function (e) {
+            e.preventDefault();
+            expenses = [];
+            localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
+            renderExpenses();
+        });
+
+        document.getElementById('export-csv').addEventListener('click', function (e) {
+            e.preventDefault();
+            const headers = "Amount,To,Note,Date\n";
+            const csvContent = expenses.map(exp => `${exp.amount},${exp.to},${exp.note},${exp.date}`).join("\n");
+            const blob = new Blob([headers + csvContent], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Expenses.csv';
+            link.click();
+        });
+
+        renderExpenses();
+    </script>
+</body>
+<style>
+    /* ... (previous styles remain the same) ... */
+
+    @media screen and (max-width: 768px) {
+        .flex {
+            flex-direction: column;
+        }
+
+        .flex_form {
+            position: relative;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            max-height: 60px;
+        }
+
+        .flex_form.expanded {
+            max-height: 1000px;
+        }
+
+        .form-toggle {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #0655ff;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .form-toggle::after {
+            content: '▼';
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .flex_form.expanded .form-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        #expense-form {
+            padding-top: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+<div id="app">
+    <!-- ... (previous HTML content remains the same) ... -->
+    <div class="flex">
+        <div class="flex_content flex_form">
+            <form id="expense-form" class="form">
+                <!-- ... (form inputs remain the same) ... -->
+            </form>
+        </div>
+        <div class="flex_content flex_expenses">
+            <!-- ... (expenses list content remains the same) ... -->
+        </div>
+    </div>
+</div>
+<script>
+    // ... (previous JavaScript code remains the same) ...
+
+    // Add this new code at the end of the script
+    const formToggle = document.querySelector('.form-toggle');
+    const flexForm = document.querySelector('.flex_form');
+
+    formToggle.addEventListener('click', () => {
+        flexForm.classList.toggle('expanded');
+    });
+
+    // Collapse form after submitting an expense
+    document.getElementById('expense-form').addEventListener('submit', function (e) {
+        // ... (existing submit event code) ...
+
+        // Collapse form on mobile after submission
+        if (window.innerWidth <= 768) {
+            flexForm.classList.remove('expanded');
+        }
+    });
+
+    // Close form when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && !flexForm.contains(e.target) && flexForm.classList.contains('expanded')) {
+            flexForm.classList.remove('expanded');
+        }
+    });
+</script>
+</body>
+</html>
+</html>
