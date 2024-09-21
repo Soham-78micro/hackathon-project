@@ -11,51 +11,29 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-weight: bold;
         }
+
         body::before {
             content: "";
-            background-image: url('https://i.pinimg.com/originals/de/02/5b/de025b863d1edaa2873dc1573aa27a2f.jpg'); /* Add your image URL here */
+            background-image: url('https://i.pinimg.com/originals/de/02/5b/de025b863d1edaa2873dc1573aa27a2f.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            filter: blur(10px); /* Adjust the blur amount */
-            z-index: -1; /* Keep the blurred background behind the content */
+            filter: blur(10px);
+            z-index: -1;
         }
 
-        q,h1 {
-    display: block; /* Makes the <q> element a block-level element */
-    color: #333; /* Text color */
-    background-color: #f0f8ff87; /* Light blue background */
-    padding: 10px; /* Adds space inside the block */
-    border-left: 5px solid #007bff; /* Adds a blue border on the left */
-    margin-bottom: 15px; /* Adds space below the quote */
-    font-style: italic; /* Italicizes the text for quote styling */
-}
-
-
-        * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-}
-
         body {
-            background-color: #1a3a5c;
             font-family: "Nunito", sans-serif;
             color: #0e141a;
             line-height: 1.6;
             padding: 20px;
-            background-image: url('https://i.pinimg.com/originals/de/02/5b/de025b863d1edaa2873dc1573aa27a2f.jpg'); /* Add your image URL here */
-            background-size: cover; /* This ensures the image covers the whole screen */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat; /* Prevents the image from repeating */
-           
         }
 
         #app {
@@ -74,26 +52,26 @@
             animation: fadeInDown 0.8s ease-out;
         }
 
-        
         .abt {
             font-size: 1em;
             opacity: 0.8;
             animation: fadeIn 1s ease-out 0.5s both;
         }
 
+        q, h1 {
+            display: block;
+            color: #333;
+            background-color: #f0f8ff87;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
         .flex {
             display: flex;
             justify-content: space-between;
             gap: 20px;
-        }
-        input[type="date"] {
-            color: black; /* Set text color to black */
-            font-family: Arial, sans-serif;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: white;
-            width: 200px;
         }
 
         .flex_content {
@@ -126,44 +104,28 @@
             border: none;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.1);
-            color: #0e0c0cf0;
-            transition: background-color 0.3s ease;
+            color: #0e0c0cda;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .form input:focus, .form textarea:focus {
-            background-color: rgba(22, 18, 18, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
             outline: none;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: rgb(12, 10, 10);
         }
 
-        .form input, .form textarea {
-    width: 100%; /* Make input/textarea take up full width */
-    padding: 10px; /* Padding inside the input/textarea */
-    margin-bottom: 15px; /* Space between form fields */
-    border: none; /* Remove default borders */
-    border-radius: 5px; /* Rounded corners */
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent white background */
-    color: #0e0c0cda; /* Light text color */
-    font-size: 16px; /* Font size of input text */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow inside the input */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition on hover/focus */
-}
-
-/* Add focus state to make inputs more interactive */
-.form input:focus, .form textarea:focus {
-    background-color: rgba(255, 255, 255, 0.2); /* Slightly increase transparency on focus */
-    outline: none; /* Remove default outline */
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Darken the shadow on focus */
-    color: rgb(12, 10, 10); /* Make the text color fully white on focus */
-}
-
-/* Additional media query for responsive input fields */
-@media screen and (max-width: 768px) {
-    .form input, .form textarea {
-        font-size: 14px; /* Adjust font size on smaller screens */
-        padding: 8px; /* Slightly reduce padding for better responsiveness */
-    }
-}
-
+        input[type="date"] {
+            color: black;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            width: 100%;
+        }
 
         .btn {
             display: block;
@@ -194,13 +156,13 @@
         }
 
         .total {
-    display: flex;
-    justify-content: space-between;
-    background-color: rgb(194 197 200 / 6%);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(194 197 200 / 6%);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
 
         .expense {
             background-color: #fefefe;
@@ -249,6 +211,47 @@
             .flex {
                 flex-direction: column;
             }
+
+            .flex_form {
+                position: relative;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                max-height: 60px;
+            }
+
+            .flex_form.expanded {
+                max-height: 1000px;
+            }
+
+            .form-toggle {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                background-color: #0655ff;
+                color: #fff;
+                text-align: center;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .form-toggle::after {
+                content: '▼';
+                margin-left: 5px;
+                transition: transform 0.3s ease;
+            }
+
+            .flex_form.expanded .form-toggle::after {
+                transform: rotate(180deg);
+            }
+
+            #expense-form {
+                padding-top: 20px;
+            }
+
+            .form input, .form textarea {
+                font-size: 14px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -264,11 +267,12 @@
         </p>
         <div class="flex">
             <div class="flex_content flex_form">
+                <div class="form-toggle">Add New Expense</div>
                 <form id="expense-form" class="form">
                     <input type="number" id="amount" placeholder="Amount" autocomplete="off" required>
                     <input type="text" id="to" placeholder="To" autocomplete="off" required>
                     <textarea id="note" rows="3" placeholder="Note"></textarea>
-                    <input type="date" id="date" required="" style="color: black; font-family: Arial, sans-serif; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background-color: white; width: 200px;">
+                    <input type="date" id="date" required>
                     <button class="btn btn_success" type="submit">Add expense</button>
                     <button class="btn btn_danger" id="clear-record">Clear record</button>
                     <button class="btn btn_primary" id="export-csv">Export as .csv</button>
@@ -289,6 +293,8 @@
         let expenses = JSON.parse(localStorage.getItem('q-js-expenses')) || [];
         const totalDisplay = document.getElementById('total-display');
         const expensesList = document.getElementById('expenses-list');
+        const formToggle = document.querySelector('.form-toggle');
+        const flexForm = document.querySelector('.flex_form');
         
         function calculateTotal() {
             let total = expenses.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
@@ -325,6 +331,9 @@
                 localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
                 renderExpenses();
                 this.reset();
+                if (window.innerWidth <= 768) {
+                    flexForm.classList.remove('expanded');
+                }
             }
         });
 
@@ -346,97 +355,23 @@
             link.click();
         });
 
+        formToggle.addEventListener('click', () => {
+            flexForm.classList.toggle('expanded');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !flexForm.contains(e.target) && flexForm.classList.contains('expanded')) {
+                flexForm.classList.remove('expanded');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                flexForm.classList.remove('expanded');
+            }
+        });
+
         renderExpenses();
     </script>
 </body>
-<style>
-    /* ... (previous styles remain the same) ... */
-
-    @media screen and (max-width: 768px) {
-        .flex {
-            flex-direction: column;
-        }
-
-        .flex_form {
-            position: relative;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            max-height: 60px;
-        }
-
-        .flex_form.expanded {
-            max-height: 1000px;
-        }
-
-        .form-toggle {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #0655ff;
-            color: #fff;
-            text-align: center;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .form-toggle::after {
-            content: '▼';
-            margin-left: 5px;
-            transition: transform 0.3s ease;
-        }
-
-        .flex_form.expanded .form-toggle::after {
-            transform: rotate(180deg);
-        }
-
-        #expense-form {
-            padding-top: 20px;
-        }
-    }
-</style>
-</head>
-<body>
-<div id="app">
-    <!-- ... (previous HTML content remains the same) ... -->
-    <div class="flex">
-        <div class="flex_content flex_form">
-            <form id="expense-form" class="form">
-                <!-- ... (form inputs remain the same) ... -->
-            </form>
-        </div>
-        <div class="flex_content flex_expenses">
-            <!-- ... (expenses list content remains the same) ... -->
-        </div>
-    </div>
-</div>
-<script>
-    // ... (previous JavaScript code remains the same) ...
-
-    // Add this new code at the end of the script
-    const formToggle = document.querySelector('.form-toggle');
-    const flexForm = document.querySelector('.flex_form');
-
-    formToggle.addEventListener('click', () => {
-        flexForm.classList.toggle('expanded');
-    });
-
-    // Collapse form after submitting an expense
-    document.getElementById('expense-form').addEventListener('submit', function (e) {
-        // ... (existing submit event code) ...
-
-        // Collapse form on mobile after submission
-        if (window.innerWidth <= 768) {
-            flexForm.classList.remove('expanded');
-        }
-    });
-
-    // Close form when clicking outside on mobile
-    document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768 && !flexForm.contains(e.target) && flexForm.classList.contains('expanded')) {
-            flexForm.classList.remove('expanded');
-        }
-    });
-</script>
-</body>
-</html>
 </html>
