@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- X-Frame-Options to prevent clickjacking -->
+       <meta http-equiv="X-Frame-Options" content="DENY">
+       <!-- Strict CORS policy -->
+       <meta http-equiv="Access-Control-Allow-Origin" content="https://soham-78micro.github.io/hackathon-project/">
+       <!-- Force HTTPS -->
+       <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     <title>Animated Expense Tracker</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
@@ -292,7 +298,34 @@
     </div>
 
     <script>
-        let expenses = JSON.parse(localStorage.getItem('q-js-expenses')) || [];
+        // Secure helper function to sanitize input
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        // Secure data retrieval from localStorage
+        function getSecureData(key) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : null;
+            } catch (error) {
+                console.error('Error parsing data from localStorage:', error);
+                return null;
+            }
+        }
+
+        // Secure data storage to localStorage
+        function setSecureData(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+            } catch (error) {
+                console.error('Error storing data to localStorage:', error);
+            }
+        }
+
+        let expenses = getSecureData('q-js-expenses') || [];
         const totalDisplay = document.getElementById('total-display');
         const expensesList = document.getElementById('expenses-list');
         const formToggle = document.querySelector('.form-toggle');
@@ -310,10 +343,10 @@
                 expenseDiv.className = 'expense';
                 expenseDiv.style.animationDelay = `${index * 0.1}s`;
                 expenseDiv.innerHTML = `
-                    <p><b>To:</b> ${expense.to}</p>
-                    <p><b>Date:</b> ${expense.date}</p>
+                    <p><b>To:</b> ${sanitizeInput(expense.to)}</p>
+                    <p><b>Date:</b> ${sanitizeInput(expense.date)}</p>
                     <p><b>Amount:</b> $${parseFloat(expense.amount).toFixed(2)}</p>
-                    <p><b>Note:</b> ${expense.note}</p>
+                    <p><b>Note:</b> ${sanitizeInput(expense.note)}</p>
                 `;
                 expensesList.appendChild(expenseDiv);
             });
@@ -328,9 +361,14 @@
             const date = document.getElementById('date').value;
 
             if (amount && to && date) {
-                const newExpense = { amount, to, note, date };
+                const newExpense = {
+                    amount: parseFloat(amount).toFixed(2),
+                    to: sanitizeInput(to),
+                    note: sanitizeInput(note),
+                    date: sanitizeInput(date)
+                };
                 expenses.unshift(newExpense);
-                localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
+                setSecureData('q-js-expenses', expenses);
                 renderExpenses();
                 this.reset();
                 if (window.innerWidth <= 768) {
@@ -341,20 +379,31 @@
 
         document.getElementById('clear-record').addEventListener('click', function (e) {
             e.preventDefault();
-            expenses = [];
-            localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
-            renderExpenses();
+            if (confirm('Are you sure you want to clear all records? This action cannot be undone.')) {
+                expenses = [];
+                setSecureData('q-js-expenses', expenses);
+                renderExpenses();
+            }
         });
 
         document.getElementById('export-csv').addEventListener('click', function (e) {
             e.preventDefault();
             const headers = "Amount,To,Note,Date\n";
-            const csvContent = expenses.map(exp => `${exp.amount},${exp.to},${exp.note},${exp.date}`).join("\n");
-            const blob = new Blob([headers + csvContent], { type: 'text/csv' });
+            const csvContent = expenses.map(exp => 
+                `${exp.amount},"${exp.to.replace(/"/g, '""')}","${exp.note.replace(/"/g, '""')}",${exp.date}`
+            ).join("\n");
+            const blob = new Blob([headers + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'Expenses.csv';
-            link.click();
+            if (navigator.msSaveBlob) {
+                navigator.msSaveBlob(blob, 'Expenses.csv');
+            } else {
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Expenses.csv';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         });
 
         formToggle.addEventListener('click', () => {
