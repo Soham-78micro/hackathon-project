@@ -3,43 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- X-Frame-Options to prevent clickjacking -->
-       <meta http-equiv="X-Frame-Options" content="DENY">
-       <!-- Strict CORS policy -->
-       <meta http-equiv="Access-Control-Allow-Origin" content="https://soham-78micro.github.io/hackathon-project/">
-       <!-- Force HTTPS -->
-       <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     <title>Animated Expense Tracker</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --text: #1e293b;
+            --background: #f8fafc;
+        }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-weight: bold;
-        }
-
-        body::before {
-            content: "";
-            background-image: url('https://i.pinimg.com/originals/de/02/5b/de025b863d1edaa2873dc1573aa27a2f.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            filter: blur(10px);
-            z-index: -1;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: "Nunito", sans-serif;
-            color: #0e141a;
-            line-height: 1.6;
-            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #a5b4fc, #818cf8, #6366f1);
+            padding: 2rem;
+            color: var(--text);
         }
 
         #app {
@@ -47,50 +35,58 @@
             margin: 0 auto;
         }
 
-        .title, .abt {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         .title {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3em;
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             animation: fadeInDown 0.8s ease-out;
         }
 
         .abt {
-            font-size: 1em;
-            opacity: 0.8;
-            animation: fadeIn 1s ease-out 0.5s both;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
         }
 
-        q, h1 {
+        q {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 300;
+            line-height: 1.6;
             display: block;
-            color: #333;
-            background-color: #f0f8ff87;
-            padding: 10px;
-            border-left: 5px solid #007bff;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+        }
+
+        small {
+            color: rgba(255, 255, 255, 0.8);
             font-style: italic;
         }
 
         .flex {
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
         .flex_content {
-            background-color: rgba(124, 130, 138, 0.466);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
         }
 
         .flex_content:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .flex_form {
@@ -105,86 +101,116 @@
 
         .form input, .form textarea {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
             border: none;
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #0e0c0cda;
-            font-size: 16px;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: rgb(0, 0, 0);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form input::placeholder, .form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .form input:focus, .form textarea:focus {
-            background-color: rgba(255, 255, 255, 0.2);
             outline: none;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            color: rgb(12, 10, 10);
-        }
-
-        input[type="date"] {
-            color: black;
-            font-family: Arial, sans-serif;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: white;
-            width: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
         }
 
         .btn {
-            display: block;
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
             transition: all 0.3s ease;
-            color: #fefefe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+        }
+
+        .btn_success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn_danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn_primary {
+            background: var(--primary);
+            color: white;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .btn_success { background-color: #03d35a; }
-        .btn_danger { background-color: #e41d1d; }
-        .btn_primary { background-color: #0655ff; }
-
         .head {
-            font-size: 1.5em;
-            margin-bottom: 15px;
+            font-size: 2em;
+            color: white;
+            margin-bottom: 1.5rem;
             text-align: center;
+            font-weight: 600;
         }
 
         .total {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
             justify-content: space-between;
-            background-color: rgb(194 197 200 / 6%);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .total h3 {
+            color: white;
+            font-size: 1.2em;
+        }
+
+        #total-display {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #171c0e;
         }
 
         .expense {
-            background-color: #fefefe;
-            color: #000000;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: rgb(182 183 235 / 90%);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
             transition: all 0.3s ease;
             animation: slideIn 0.5s ease-out;
         }
 
         .expense:hover {
             transform: translateX(5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .expense p {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .expense p:last-child {
+            margin-bottom: 0;
         }
 
         @keyframes fadeInDown {
@@ -214,16 +240,40 @@
             }
         }
 
+        /* Custom scrollbar */
+        .flex_expenses::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .flex_expenses::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .flex_expenses::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
         @media screen and (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
             .flex {
                 flex-direction: column;
+            }
+
+            .title {
+                font-size: 2em;
             }
 
             .flex_form {
                 position: relative;
                 overflow: hidden;
                 transition: max-height 0.3s ease;
-                max-height: 60px;
+                max-height: 95px;
+
             }
 
             .flex_form.expanded {
@@ -231,33 +281,29 @@
             }
 
             .form-toggle {
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
                 width: 100%;
-                padding: 10px;
-                background-color: #0655ff;
-                color: #fff;
-                text-align: center;
+                padding: 1rem;
+                background: var(--primary);
+                color: white;
+                border-radius: 0.75rem;
+                font-weight: 600;
                 cursor: pointer;
-                font-weight: bold;
             }
 
-            .form-toggle::after {
-                content: '▼';
-                margin-left: 5px;
+            .form-toggle i {
                 transition: transform 0.3s ease;
             }
 
-            .flex_form.expanded .form-toggle::after {
+            .flex_form.expanded .form-toggle i {
                 transform: rotate(180deg);
             }
 
             #expense-form {
-                padding-top: 20px;
-            }
-
-            .form input, .form textarea {
-                font-size: 14px;
-                padding: 8px;
+                padding-top: 1rem;
             }
         }
     </style>
@@ -265,31 +311,43 @@
 
 <body>
     <div id="app">
-        <h1 class="title">EXPENSE TRACKER</h1>
-        <p class="abt">
+        <h1 class="title">💰 Expense Tracker</h1>
+        <div class="abt">
             <q>This expense tracker helps you track your expenses for as long as you wish. Whenever you wish to start
                 tracking afresh (This can be after a week or a month or any period of time), click on the clear records
                 button to clear everything. Click on the 'Export as CSV' button to export the records as a .csv
                 file</q>
-            <small> -- Soham Datta</small>
-        </p>
+            <small>-- Soham Datta</small>
+        </div>
         <div class="flex">
             <div class="flex_content flex_form">
-                <div class="form-toggle">Add New Expense</div>
+                <div class="form-toggle">
+                    <i class="fas fa-plus-circle"></i>
+                    Add New Expense
+                </div>
                 <form id="expense-form" class="form">
                     <input type="number" id="amount" placeholder="Amount" autocomplete="off" required>
                     <input type="text" id="to" placeholder="To" autocomplete="off" required>
                     <textarea id="note" rows="3" placeholder="Note"></textarea>
                     <input type="date" id="date" required>
-                    <button class="btn btn_success" type="submit">Add expense</button>
-                    <button class="btn btn_danger" id="clear-record">Clear record</button>
-                    <button class="btn btn_primary" id="export-csv">Export as .csv</button>
+                    <button class="btn btn_success" type="submit">
+                        <i class="fas fa-plus"></i>
+                        Add Expense
+                    </button>
+                    <button class="btn btn_danger" id="clear-record">
+                        <i class="fas fa-trash"></i>
+                        Clear Record
+                    </button>
+                    <button class="btn btn_primary" id="export-csv">
+                        <i class="fas fa-file-export"></i>
+                        Export as CSV
+                    </button>
                 </form>
             </div>
             <div class="flex_content flex_expenses">
-                <h2 class="head">Expenses</h2>
+                <h2 class="head">📊 Expenses</h2>
                 <div class="total">
-                    <h3>TOTAL</h3>
+                    <h3>TOTAL SPENT</h3>
                     <h3 id="total-display">$0.0</h3>
                 </div>
                 <div id="expenses-list"></div>
@@ -297,35 +355,9 @@
         </div>
     </div>
 
+
     <script>
-        // Secure helper function to sanitize input
-        function sanitizeInput(input) {
-            const div = document.createElement('div');
-            div.textContent = input;
-            return div.innerHTML;
-        }
-
-        // Secure data retrieval from localStorage
-        function getSecureData(key) {
-            try {
-                const data = localStorage.getItem(key);
-                return data ? JSON.parse(data) : null;
-            } catch (error) {
-                console.error('Error parsing data from localStorage:', error);
-                return null;
-            }
-        }
-
-        // Secure data storage to localStorage
-        function setSecureData(key, data) {
-            try {
-                localStorage.setItem(key, JSON.stringify(data));
-            } catch (error) {
-                console.error('Error storing data to localStorage:', error);
-            }
-        }
-
-        let expenses = getSecureData('q-js-expenses') || [];
+        let expenses = JSON.parse(localStorage.getItem('q-js-expenses')) || [];
         const totalDisplay = document.getElementById('total-display');
         const expensesList = document.getElementById('expenses-list');
         const formToggle = document.querySelector('.form-toggle');
@@ -343,10 +375,10 @@
                 expenseDiv.className = 'expense';
                 expenseDiv.style.animationDelay = `${index * 0.1}s`;
                 expenseDiv.innerHTML = `
-                    <p><b>To:</b> ${sanitizeInput(expense.to)}</p>
-                    <p><b>Date:</b> ${sanitizeInput(expense.date)}</p>
+                    <p><b>To:</b> ${expense.to}</p>
+                    <p><b>Date:</b> ${expense.date}</p>
                     <p><b>Amount:</b> $${parseFloat(expense.amount).toFixed(2)}</p>
-                    <p><b>Note:</b> ${sanitizeInput(expense.note)}</p>
+                    <p><b>Note:</b> ${expense.note}</p>
                 `;
                 expensesList.appendChild(expenseDiv);
             });
@@ -361,14 +393,9 @@
             const date = document.getElementById('date').value;
 
             if (amount && to && date) {
-                const newExpense = {
-                    amount: parseFloat(amount).toFixed(2),
-                    to: sanitizeInput(to),
-                    note: sanitizeInput(note),
-                    date: sanitizeInput(date)
-                };
+                const newExpense = { amount, to, note, date };
                 expenses.unshift(newExpense);
-                setSecureData('q-js-expenses', expenses);
+                localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
                 renderExpenses();
                 this.reset();
                 if (window.innerWidth <= 768) {
@@ -379,31 +406,20 @@
 
         document.getElementById('clear-record').addEventListener('click', function (e) {
             e.preventDefault();
-            if (confirm('Are you sure you want to clear all records? This action cannot be undone.')) {
-                expenses = [];
-                setSecureData('q-js-expenses', expenses);
-                renderExpenses();
-            }
+            expenses = [];
+            localStorage.setItem('q-js-expenses', JSON.stringify(expenses));
+            renderExpenses();
         });
 
         document.getElementById('export-csv').addEventListener('click', function (e) {
             e.preventDefault();
             const headers = "Amount,To,Note,Date\n";
-            const csvContent = expenses.map(exp => 
-                `${exp.amount},"${exp.to.replace(/"/g, '""')}","${exp.note.replace(/"/g, '""')}",${exp.date}`
-            ).join("\n");
-            const blob = new Blob([headers + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const csvContent = expenses.map(exp => `${exp.amount},${exp.to},${exp.note},${exp.date}`).join("\n");
+            const blob = new Blob([headers + csvContent], { type: 'text/csv' });
             const link = document.createElement('a');
-            if (navigator.msSaveBlob) {
-                navigator.msSaveBlob(blob, 'Expenses.csv');
-            } else {
-                link.href = URL.createObjectURL(blob);
-                link.download = 'Expenses.csv';
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Expenses.csv';
+            link.click();
         });
 
         formToggle.addEventListener('click', () => {
